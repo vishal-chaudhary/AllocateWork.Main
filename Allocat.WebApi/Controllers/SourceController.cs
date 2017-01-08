@@ -44,5 +44,10 @@ namespace Allocat.WebApi.Controllers
             var badResponse = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.BadRequest, rfq_TissueBankApiModel);
             return badResponse;
         }
+
+        public string getTest()
+        {
+            return "Vishal";
+        }
     }
 }
