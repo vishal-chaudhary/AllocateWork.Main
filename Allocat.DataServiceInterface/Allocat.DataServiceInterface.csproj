@@ -54,6 +54,7 @@
     <Compile Include="IProductDataService.cs" />
     <Compile Include="IProductMasterDataService.cs" />
     <Compile Include="IRFQDataService.cs" />
+    <Compile Include="IUserManagementDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
