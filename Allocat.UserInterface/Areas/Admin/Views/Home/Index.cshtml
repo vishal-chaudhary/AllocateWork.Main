@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Assets/js/lib/jquery-1.9.1.min.js"></script>
+<h2>HI admin</h2>
+<script>
+    $(document).ready(function () {
+        test();
+    });
+    function test() {
+        $.get('http://localhost:63729/Api/Test/', function (resut) {
+            alert(resut);
+        });
+    }
+</script>
