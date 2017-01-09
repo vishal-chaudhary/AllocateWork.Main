@@ -7,14 +7,8 @@ using Allocat.DataModel;
 
 namespace Allocat.DataServiceInterface
 {
-    public class IUserManagementDataService : IDataService, IDisposable
+    public interface IUserManagementDataService : IDataService, IDisposable
     {
-        IEnumerable<sp_User_GetProfile_Result> GetUserProfile(out TransactionalInformation transactionalInformation);
-
-
-        public void CreateSession()
-        {
-            throw new NotImplementedException();
-        }
+        IEnumerable<sp_User_GetProfile_Result> GetUserProfile(string UserName, out TransactionalInformation transactionalInformation);
     }
 }

@@ -8,7 +8,7 @@ namespace Allocat.WebApi.WebApiModel
 {
     public class Admin_UserProfileApiModel : TransactionalInformation
     {
-        public IEnumerable<sp_User_GetProfile_Result> UserProfile;
+        public IEnumerable<sp_User_GetProfile_Result> UserProfileByUserName;
     }
 
 

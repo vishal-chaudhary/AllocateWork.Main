@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Vishal\OneDrive\Work\Code Solution-20170105T151914Z\Code Solution\Allocat_5_1\Allocat_5_1\Allocat.DataModel\AllocatDbContext.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Vishal\OneDrive\Work\GIT\repos\Allocat_5_1\Allocat.DataModel\AllocatDbContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AllocatDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AllocatDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityID" />
@@ -13,6 +13,21 @@
           <Property Name="CityName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StateId" Type="int" Nullable="false" />
           <Property Name="ZipCode" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AlloCatDB.dbo.Company' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="CityId" />
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nchar" MaxLength="100" />
+          <Property Name="CityId" Type="int" Nullable="false" />
+          <Property Name="StateId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DomainScope">
           <Key>
@@ -149,8 +164,8 @@
           <Property Name="LineTotal" Type="numeric" Precision="18" Scale="2" />
           <Property Name="SalesTax" Type="numeric" Precision="18" Scale="2" />
           <Property Name="Total" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="NeedByDate" Type="date" />
-          <Property Name="TissueBankSendByDate" Type="date" />
+          <Property Name="NeedByDate" Type="datetime" />
+          <Property Name="TissueBankSendByDate" Type="datetime" />
           <Property Name="ShippingDetailId" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
@@ -163,7 +178,7 @@
           </Key>
           <Property Name="ProductMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductMasterName" Type="nvarchar" MaxLength="100" />
-          <Property Name="ProductMasterDescription" Type="nvarchar" MaxLength="300" />
+          <Property Name="ProductMasterDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="ProductMasterFeatures" Type="nvarchar" MaxLength="300" />
           <Property Name="ProductMasterImageName" Type="nvarchar" MaxLength="50" />
           <Property Name="ProductMasterThumbnailImageName" Type="nvarchar" MaxLength="50" />
@@ -220,7 +235,7 @@
           <Property Name="RequestForQuoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductEntityId" Type="int" />
           <Property Name="StatusId" Type="int" />
-          <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="LastModifiedDate" Type="datetime" />
@@ -860,37 +875,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="sp_RequestForQuote_TissueBank_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TissueBankId" Type="int" Mode="In" />
-          <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="AttachmentName" Type="nvarchar" Mode="In" />
-          <Parameter Name="CreatedBy" Type="int" Mode="In" />
-          <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
-          <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
-          <Parameter Name="StatusId" Type="int" Mode="In" />
-          <Parameter Name="DeclineRemark" Type="nvarchar" Mode="In" />
-          <Parameter Name="Quantity" Type="int" Mode="In" />
-          <Parameter Name="UnitPrice" Type="numeric" Mode="In" />
-          <Parameter Name="LineTotal" Type="numeric" Mode="In" />
-          <Parameter Name="SalesTax" Type="numeric" Mode="In" />
-          <Parameter Name="Total" Type="numeric" Mode="In" />
-          <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
-          <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_RequestForQuote_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TissueBankId" Type="int" Mode="In" />
-          <Parameter Name="SearchBy" Type="varchar" Mode="In" />
-          <Parameter Name="CurrentPage" Type="int" Mode="In" />
-          <Parameter Name="PageSize" Type="int" Mode="In" />
-          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
-          <Parameter Name="SortExpression" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_RequestResponse_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
-        </Function>
         <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -905,6 +889,9 @@
           <Parameter Name="ProductMasterId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_User_GetEntityInfoByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_User_GetProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_User_GetRoleByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -939,6 +926,15 @@
           <EntitySet Name="TissueBankProduct" EntityType="Self.TissueBankProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Company].[CompanyId] AS [CompanyId], 
+    [Company].[CompanyName] AS [CompanyName], 
+    [Company].[Address] AS [Address], 
+    [Company].[CityId] AS [CityId], 
+    [Company].[StateId] AS [StateId]
+    FROM [dbo].[Company] AS [Company]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
             <End Role="State" EntitySet="State" />
             <End Role="City" EntitySet="City" />
@@ -1278,8 +1274,8 @@
           <Property Name="LineTotal" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SalesTax" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="NeedByDate" Type="DateTime" Precision="0" />
-          <Property Name="TissueBankSendByDate" Type="DateTime" Precision="0" />
+          <Property Name="NeedByDate" Type="DateTime" Precision="3" />
+          <Property Name="TissueBankSendByDate" Type="DateTime" Precision="3" />
           <Property Name="ShippingDetailId" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" />
@@ -1299,7 +1295,7 @@
           </Key>
           <Property Name="ProductMasterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductMasterName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ProductMasterDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ProductMasterDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ProductMasterFeatures" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="ProductMasterImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ProductMasterThumbnailImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1377,6 +1373,7 @@
           <NavigationProperty Name="PurchaseRequest" Relationship="Self.FK_Purchaserequest_RequestForQuote" FromRole="RequestForQuote" ToRole="PurchaseRequest" />
           <NavigationProperty Name="Request" Relationship="Self.FK_Request_RequestForQuote" FromRole="RequestForQuote" ToRole="Request" />
           <NavigationProperty Name="Status" Relationship="Self.FK_RequestForQuote_Status" FromRole="RequestForQuote" ToRole="Status" />
+          <Property Name="Remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Response">
           <Key>
@@ -2278,6 +2275,10 @@
           <FunctionImport Name="sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId" ReturnType="Collection(AllocatDbModel.sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result)">
             <Parameter Name="RequestForQuoteId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Company" EntityType="AllocatDbModel.Company" />
+          <FunctionImport Name="sp_User_GetProfile" ReturnType="Collection(AllocatDbModel.sp_User_GetProfile_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_RequestForQuote_TissueBank_GetByTissueBankId_Result">
           <Property Type="Int64" Name="Sno" Nullable="true" />
@@ -2349,6 +2350,25 @@
           <Property Type="String" Name="CityName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ShippingMethod" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="DeclineRemark" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="CityId" />
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="CityId" Type="Int32" Nullable="false" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="sp_User_GetProfile_Result">
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EmailId" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2583,10 +2603,10 @@
           <EntitySetMapping Name="RequestForQuote">
             <EntityTypeMapping TypeName="AllocatDbModel.RequestForQuote">
               <MappingFragment StoreEntitySet="RequestForQuote">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
                 <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
@@ -2759,31 +2779,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
-          <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_GetByTissueBankId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuote_TissueBank_GetByTissueBankId_Result">
-                <ScalarProperty Name="Sno" ColumnName="Sno" />
-                <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_RequestResponse_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestResponse_TissueBank_GetByTissueBankId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestResponse_TissueBank_GetByTissueBankId_Result">
-                <ScalarProperty Name="BodyType" ColumnName="BodyType" />
-                <ScalarProperty Name="Initial" ColumnName="Initial" />
-                <ScalarProperty Name="Body" ColumnName="Body" />
-                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
           <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetByTissueBankId">
             <ResultMapping>
@@ -2833,27 +2828,24 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_User_GetRoleByUserName" FunctionName="AllocatDbModel.Store.sp_User_GetRoleByUserName" />
-          <FunctionImportMapping FunctionImportName="sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId" FunctionName="AllocatDbModel.Store.sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId">
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="AllocatDbModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_User_GetProfile" FunctionName="AllocatDbModel.Store.sp_User_GetProfile">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result">
-                <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
-                <ScalarProperty Name="SalesTax" ColumnName="SalesTax" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="NeedByDate" ColumnName="NeedByDate" />
-                <ScalarProperty Name="TissueBankSendByDate" ColumnName="TissueBankSendByDate" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-                <ScalarProperty Name="HospitalName" ColumnName="HospitalName" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
-                <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
-                <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
+              <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_GetProfile_Result">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

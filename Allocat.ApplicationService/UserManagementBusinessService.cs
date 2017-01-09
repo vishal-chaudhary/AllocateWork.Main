@@ -8,7 +8,7 @@ using Allocat.DataServiceInterface;
 
 namespace Allocat.ApplicationService
 {
-    class UserManagementBusinessService
+    public class UserManagementBusinessService
     {
         private IUserManagementDataService _userManagemenDataService;
 
@@ -19,7 +19,7 @@ namespace Allocat.ApplicationService
             _userManagemenDataService = usermgmtDataService;
         }
 
-        public IEnumerable<sp_User_GetProfile_Result> GetUserProfile(out TransactionalInformation transaction)
+        public IEnumerable<sp_User_GetProfile_Result> GetUserProfile(string UserName, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             IEnumerable<sp_User_GetProfile_Result> listUser = null;
@@ -27,7 +27,7 @@ namespace Allocat.ApplicationService
             try
             {
                 _userManagemenDataService.CreateSession();
-                listUser = _userManagemenDataService.GetUserProfile(out transaction);
+                listUser = _userManagemenDataService.GetUserProfile(UserName, out transaction);
             }
             catch (Exception ex)
             {
@@ -38,7 +38,7 @@ namespace Allocat.ApplicationService
             }
             finally
             {
-                _productDataService.CloseSession();
+                _userManagemenDataService.CloseSession();
             }
 
             return listUser;

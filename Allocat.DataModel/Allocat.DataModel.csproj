@@ -71,6 +71,9 @@
     <Compile Include="City.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Company.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataGridPagingInformation.cs" />
     <Compile Include="DomainScope.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
@@ -150,6 +153,9 @@
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_User_GetEntityInfoByUserName_Result.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_User_GetProfile_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="State.cs">

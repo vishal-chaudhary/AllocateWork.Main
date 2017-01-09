@@ -14,19 +14,22 @@ namespace Allocat.DataModel
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    
-    public partial class Entities : DbContext
+    using System.Data.Entity.ModelConfiguration.Conventions;
+    using System.Data.SqlClient;
+
+    public partial class AllocatDbEntities : DbContext
     {
-        public Entities()
-            : base("name=Entities")
+        public AllocatDbEntities()
+            : base("name=AllocatDbEntities")
         {
+            Database.SetInitializer<AllocatDbEntities>(null);
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-    
+
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<DomainScope> DomainScope { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
@@ -55,182 +58,189 @@ namespace Allocat.DataModel
         public virtual DbSet<TissueBankProduct> TissueBankProduct { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
-    
+
         public virtual int sp_RequestForQuote_TissueBank_Edit(Nullable<int> tissueBankId, string responseBody, string attachmentName, Nullable<int> createdBy, Nullable<int> lastModifiedBy, Nullable<int> requestForQuoteId, Nullable<int> statusId, string declineRemark, Nullable<int> quantity, Nullable<decimal> unitPrice, Nullable<decimal> lineTotal, Nullable<decimal> salesTax, Nullable<decimal> total, Nullable<System.DateTime> tissueBankSendByDate, string shippingMethod)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
                 new ObjectParameter("TissueBankId", tissueBankId) :
                 new ObjectParameter("TissueBankId", typeof(int));
-    
+
             var responseBodyParameter = responseBody != null ?
                 new ObjectParameter("ResponseBody", responseBody) :
                 new ObjectParameter("ResponseBody", typeof(string));
-    
+
             var attachmentNameParameter = attachmentName != null ?
                 new ObjectParameter("AttachmentName", attachmentName) :
                 new ObjectParameter("AttachmentName", typeof(string));
-    
+
             var createdByParameter = createdBy.HasValue ?
                 new ObjectParameter("CreatedBy", createdBy) :
                 new ObjectParameter("CreatedBy", typeof(int));
-    
+
             var lastModifiedByParameter = lastModifiedBy.HasValue ?
                 new ObjectParameter("LastModifiedBy", lastModifiedBy) :
                 new ObjectParameter("LastModifiedBy", typeof(int));
-    
+
             var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
                 new ObjectParameter("RequestForQuoteId", requestForQuoteId) :
                 new ObjectParameter("RequestForQuoteId", typeof(int));
-    
+
             var statusIdParameter = statusId.HasValue ?
                 new ObjectParameter("StatusId", statusId) :
                 new ObjectParameter("StatusId", typeof(int));
-    
+
             var declineRemarkParameter = declineRemark != null ?
                 new ObjectParameter("DeclineRemark", declineRemark) :
                 new ObjectParameter("DeclineRemark", typeof(string));
-    
+
             var quantityParameter = quantity.HasValue ?
                 new ObjectParameter("Quantity", quantity) :
                 new ObjectParameter("Quantity", typeof(int));
-    
+
             var unitPriceParameter = unitPrice.HasValue ?
                 new ObjectParameter("UnitPrice", unitPrice) :
                 new ObjectParameter("UnitPrice", typeof(decimal));
-    
+
             var lineTotalParameter = lineTotal.HasValue ?
                 new ObjectParameter("LineTotal", lineTotal) :
                 new ObjectParameter("LineTotal", typeof(decimal));
-    
+
             var salesTaxParameter = salesTax.HasValue ?
                 new ObjectParameter("SalesTax", salesTax) :
                 new ObjectParameter("SalesTax", typeof(decimal));
-    
+
             var totalParameter = total.HasValue ?
                 new ObjectParameter("Total", total) :
                 new ObjectParameter("Total", typeof(decimal));
-    
+
             var tissueBankSendByDateParameter = tissueBankSendByDate.HasValue ?
                 new ObjectParameter("TissueBankSendByDate", tissueBankSendByDate) :
                 new ObjectParameter("TissueBankSendByDate", typeof(System.DateTime));
-    
+
             var shippingMethodParameter = shippingMethod != null ?
                 new ObjectParameter("ShippingMethod", shippingMethod) :
                 new ObjectParameter("ShippingMethod", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RequestForQuote_TissueBank_Edit", tissueBankIdParameter, responseBodyParameter, attachmentNameParameter, createdByParameter, lastModifiedByParameter, requestForQuoteIdParameter, statusIdParameter, declineRemarkParameter, quantityParameter, unitPriceParameter, lineTotalParameter, salesTaxParameter, totalParameter, tissueBankSendByDateParameter, shippingMethodParameter);
         }
-    
+
         public virtual ObjectResult<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result> sp_RequestForQuote_TissueBank_GetByTissueBankId(Nullable<int> tissueBankId, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
-                new ObjectParameter("TissueBankId", tissueBankId) :
-                new ObjectParameter("TissueBankId", typeof(int));
-    
+                new SqlParameter("TissueBankId", tissueBankId) :
+                new SqlParameter("TissueBankId", typeof(int));
+
             var searchByParameter = searchBy != null ?
-                new ObjectParameter("SearchBy", searchBy) :
-                new ObjectParameter("SearchBy", typeof(string));
-    
+                new SqlParameter("SearchBy", searchBy) :
+                new SqlParameter("SearchBy", typeof(string));
+
             var currentPageParameter = currentPage.HasValue ?
-                new ObjectParameter("CurrentPage", currentPage) :
-                new ObjectParameter("CurrentPage", typeof(int));
-    
+                new SqlParameter("CurrentPage", currentPage) :
+                new SqlParameter("CurrentPage", typeof(int));
+
             var pageSizeParameter = pageSize.HasValue ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(int));
-    
+                new SqlParameter("PageSize", pageSize) :
+                new SqlParameter("PageSize", typeof(int));
+
             var sortDirectionParameter = sortDirection != null ?
-                new ObjectParameter("SortDirection", sortDirection) :
-                new ObjectParameter("SortDirection", typeof(string));
-    
+                new SqlParameter("SortDirection", sortDirection) :
+                new SqlParameter("SortDirection", typeof(string));
+
             var sortExpressionParameter = sortExpression != null ?
-                new ObjectParameter("SortExpression", sortExpression) :
-                new ObjectParameter("SortExpression", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result>("sp_RequestForQuote_TissueBank_GetByTissueBankId", tissueBankIdParameter, searchByParameter, currentPageParameter, pageSizeParameter, sortDirectionParameter, sortExpressionParameter);
+                new SqlParameter("SortExpression", sortExpression) :
+                new SqlParameter("SortExpression", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result>("sp_RequestForQuote_TissueBank_GetByTissueBankId @TissueBankId, @SearchBy , @CurrentPage,@PageSize, @SortDirection, @SortExpression ", tissueBankIdParameter, searchByParameter, currentPageParameter, pageSizeParameter, sortDirectionParameter, sortExpressionParameter);
         }
-    
+
+        public virtual ObjectResult<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId(Nullable<int> requestForQuoteId)
+        {
+            var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
+                new SqlParameter("RequestForQuoteId", requestForQuoteId) :
+                new SqlParameter("RequestForQuoteId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result>("sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId @RequestForQuoteId", requestForQuoteIdParameter);
+        }
+
         public virtual ObjectResult<sp_RequestResponse_TissueBank_GetByTissueBankId_Result> sp_RequestResponse_TissueBank_GetByTissueBankId(Nullable<int> requestForQuoteId)
         {
             var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
-                new ObjectParameter("RequestForQuoteId", requestForQuoteId) :
-                new ObjectParameter("RequestForQuoteId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RequestResponse_TissueBank_GetByTissueBankId_Result>("sp_RequestResponse_TissueBank_GetByTissueBankId", requestForQuoteIdParameter);
+                new SqlParameter("RequestForQuoteId", requestForQuoteId) :
+                new SqlParameter("RequestForQuoteId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_RequestResponse_TissueBank_GetByTissueBankId_Result>("sp_RequestResponse_TissueBank_GetByTissueBankId @RequestForQuoteId", requestForQuoteIdParameter);
         }
-    
+
         public virtual int sp_TissueBankProduct_TissueBank_AddUpdate()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_TissueBankProduct_TissueBank_AddUpdate");
         }
-    
+
         public virtual ObjectResult<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> sp_TissueBankProduct_TissueBank_GetByTissueBankId(Nullable<int> tissueBankId, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
-                new ObjectParameter("TissueBankId", tissueBankId) :
-                new ObjectParameter("TissueBankId", typeof(int));
-    
+                new SqlParameter("TissueBankId", tissueBankId) :
+                new SqlParameter("TissueBankId", typeof(int));
+
             var searchByParameter = searchBy != null ?
-                new ObjectParameter("SearchBy", searchBy) :
-                new ObjectParameter("SearchBy", typeof(string));
-    
+                new SqlParameter("SearchBy", searchBy) :
+                new SqlParameter("SearchBy", typeof(string));
+
             var currentPageParameter = currentPage.HasValue ?
-                new ObjectParameter("CurrentPage", currentPage) :
-                new ObjectParameter("CurrentPage", typeof(int));
-    
+                new SqlParameter("CurrentPage", currentPage) :
+                new SqlParameter("CurrentPage", typeof(int));
+
             var pageSizeParameter = pageSize.HasValue ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(int));
-    
+                new SqlParameter("PageSize", pageSize) :
+                new SqlParameter("PageSize", typeof(int));
+
             var sortDirectionParameter = sortDirection != null ?
-                new ObjectParameter("SortDirection", sortDirection) :
-                new ObjectParameter("SortDirection", typeof(string));
-    
+                new SqlParameter("SortDirection", sortDirection) :
+                new SqlParameter("SortDirection", typeof(string));
+
             var sortExpressionParameter = sortExpression != null ?
-                new ObjectParameter("SortExpression", sortExpression) :
-                new ObjectParameter("SortExpression", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result>("sp_TissueBankProduct_TissueBank_GetByTissueBankId", tissueBankIdParameter, searchByParameter, currentPageParameter, pageSizeParameter, sortDirectionParameter, sortExpressionParameter);
+                new SqlParameter("SortExpression", sortExpression) :
+                new SqlParameter("SortExpression", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result>("sp_TissueBankProduct_TissueBank_GetByTissueBankId @TissueBankId, @SearchBy , @CurrentPage,@PageSize, @SortDirection, @SortExpression ", tissueBankIdParameter, searchByParameter, currentPageParameter, pageSizeParameter, sortDirectionParameter, sortExpressionParameter);
         }
-    
+
         public virtual ObjectResult<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId(Nullable<int> tissueBankId, Nullable<int> productMasterId)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
-                new ObjectParameter("TissueBankId", tissueBankId) :
-                new ObjectParameter("TissueBankId", typeof(int));
-    
+                new SqlParameter("TissueBankId", tissueBankId) :
+                new SqlParameter("TissueBankId", typeof(int));
+
             var productMasterIdParameter = productMasterId.HasValue ?
-                new ObjectParameter("ProductMasterId", productMasterId) :
-                new ObjectParameter("ProductMasterId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result>("sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId", tissueBankIdParameter, productMasterIdParameter);
+                new SqlParameter("ProductMasterId", productMasterId) :
+                new SqlParameter("ProductMasterId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result>("sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId @TissueBankId, @ProductMasterId", tissueBankIdParameter, productMasterIdParameter);
         }
-    
+
         public virtual ObjectResult<sp_User_GetEntityInfoByUserName_Result> sp_User_GetEntityInfoByUserName(string userName)
         {
             var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_User_GetEntityInfoByUserName_Result>("sp_User_GetEntityInfoByUserName", userNameParameter);
+                new SqlParameter("UserName", userName) :
+                new SqlParameter("UserName", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_User_GetEntityInfoByUserName_Result>("sp_User_GetEntityInfoByUserName @UserName", userNameParameter);
         }
-    
+
         public virtual ObjectResult<string> sp_User_GetRoleByUserName(string userName)
         {
             var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_User_GetRoleByUserName", userNameParameter);
+                new SqlParameter("UserName", userName) :
+                new SqlParameter("UserName", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("sp_User_GetRoleByUserName @UserName", userNameParameter);
         }
-    
-        public virtual ObjectResult<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId(Nullable<int> requestForQuoteId)
+
+        public virtual ObjectResult<sp_User_GetProfile_Result> sp_User_GetProfile_Result(string userName)
         {
-            var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
-                new ObjectParameter("RequestForQuoteId", requestForQuoteId) :
-                new ObjectParameter("RequestForQuoteId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result>("sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId", requestForQuoteIdParameter);
+            var userNameParameter = userName != null ? new SqlParameter("UserName", userName) : new SqlParameter("UserName", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_User_GetProfile_Result>("sp_User_GetProfile @UserName", userNameParameter);    
+        
         }
     }
 }

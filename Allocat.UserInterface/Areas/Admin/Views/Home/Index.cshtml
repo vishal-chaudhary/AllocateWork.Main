@@ -10,8 +10,8 @@
         test();
     });
     function test() {
-        $.get('http://localhost:63744/api/source/getTest/', function (resut) {
-            alert(resut);
+        $.get('http://localhost:63744/api/UserProfileManagement/GetUserProfile', {"UserName": "Vishal"}, function (resut) {
+            console.log(resut);
         });
     }
 </script>
