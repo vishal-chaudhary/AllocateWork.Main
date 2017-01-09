@@ -1,2 +1,2 @@
 ﻿/// <reference path="../../../lib/angular.js" />
-angular.module("userManagement", []);
+angular.module("userManagementModule", []);

@@ -187,6 +187,8 @@
     <Content Include="Assets\css\trix.css" />
     <Content Include="Assets\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\image\product.jpg" />
+    <Content Include="Assets\js\customJs\Admin\UserManagement\Services\UserManagementService.js" />
+    <Content Include="Assets\js\customJs\Admin\UserManagement\UserManagementModule.js" />
     <Content Include="Assets\js\lib\angular-filter.js" />
     <Content Include="Assets\js\lib\angular-trix.js" />
     <Content Include="Assets\js\lib\angularjs-datetime-picker.js" />
@@ -323,6 +325,8 @@
     <Folder Include="Areas\Hospital\Views\Home\" />
     <Folder Include="Areas\Hospital\Views\Shared\" />
     <Folder Include="Areas\TissueBank\Models\" />
+    <Folder Include="Assets\js\customJs\Admin\UserManagement\Controller\" />
+    <Folder Include="Assets\js\customJs\Admin\UserManagement\Directive\" />
     <Folder Include="Assets\ProductImage\" />
   </ItemGroup>
   <ItemGroup>
